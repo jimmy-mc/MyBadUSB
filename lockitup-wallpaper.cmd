@@ -1,26 +1,26 @@
 @echo off
 setlocal
 
-:: Set variables
 set "img=%TEMP%\lockitup.jpg"
 set "self=%~f0"
 
 :: Download wallpaper
-curl -s -o "%img%" "https://raw.githubusercontent.com/jimmy-mc/MyBadUSB/main/lockitup-wallpaper.jpg" >nul 2>&1
+curl -s -o "%img%" "https://raw.githubusercontent.com/jimmy-mc/MyBadUSB/main/lockitup-wallpaper.jpg"
 
-:: Set wallpaper if download succeeded
 if exist "%img%" (
-    reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%img%" /f >nul 2>&1
+    echo Wallpaper downloaded to: %img%
+    reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%img%" /f
     RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
+) else (
+    echo Failed to download image to %img%
+    pause
 )
 
-:: Self-delete using a temp script
-set "delcmd=%TEMP%\_delme.cmd"
+:: Self-delete safely AFTER image has been handled
 (
     echo @echo off
     echo ping -n 3 127.0.0.1 ^>nul
     echo del "%self%"
-) > "%delcmd%"
-start "" /min "%delcmd%"
-
+) > "%TEMP%\_delme.cmd"
+start "" /min "%TEMP%\_delme.cmd"
 exit
