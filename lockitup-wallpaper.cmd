@@ -1,14 +1,14 @@
 @echo off
 setlocal
 set "img=%TEMP%\lockitup.jpg"
-echo Downloading image to: %img%
-curl -o "%img%" "https://raw.githubusercontent.com/jimmy-mc/MyBadUSB/main/lockitup-wallpaper.jpg"
+set "me=%~f0"
+
+curl -s -o "%img%" "https://raw.githubusercontent.com/jimmy-mc/MyBadUSB/main/lockitup-wallpaper.jpg" >nul 2>&1
 
 if exist "%img%" (
-    echo Image downloaded successfully.
-    reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%img%" /f
+    reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%img%" /f >nul 2>&1
     RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
-) else (
-    echo Failed to download image.
 )
-endlocal
+
+del "%me%" >nul 2>&1
+exit
