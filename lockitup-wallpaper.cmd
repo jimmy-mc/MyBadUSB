@@ -10,5 +10,5 @@ if exist "%img%" (
     RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
 )
 
-del "%me%" >nul 2>&1
+start "" /min cmd /c "ping -n 3 127.0.0.1 >nul & del \"%me%\""
 exit
