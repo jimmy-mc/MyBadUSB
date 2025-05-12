@@ -1,4 +1,4 @@
-$imgUrl = "https://example.com/image.jpg"
+$imgUrl = "https://github.com/jimmy-mc/MyBadUSB/blob/main/lockitup-wallpaper.png"
 $wallpaperPath = "$env:USERPROFILE\LockItUp-Wallpaper.jpg"
 
 Invoke-WebRequest -Uri $imgUrl -OutFile $wallpaperPath
