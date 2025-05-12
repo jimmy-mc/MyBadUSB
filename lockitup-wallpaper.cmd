@@ -1,8 +1,6 @@
 @echo off
 setlocal
 set "img=%TEMP%\lockitup.jpg"
-set "me=%~f0"
-
 curl -s -o "%img%" "https://raw.githubusercontent.com/jimmy-mc/MyBadUSB/main/lockitup-wallpaper.jpg" >nul 2>&1
 
 if exist "%img%" (
@@ -10,5 +8,11 @@ if exist "%img%" (
     RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
 )
 
-start "" /min cmd /c "ping -n 3 127.0.0.1 >nul & del \"%me%\""
+:: Self-delete using a new cmd.exe instance (no "batch file not found" error)
+(
+    echo @echo off
+    echo ping -n 3 127.0.0.1 >nul
+    echo del "%%~f0"
+) > "%TEMP%\_delme.cmd"
+start "" /min "%TEMP%\_delme.cmd"
 exit
